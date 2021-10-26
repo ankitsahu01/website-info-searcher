@@ -6,9 +6,7 @@ const http = require("http");
 const https = require("https");
 const url = require("url");
 const path = require("path");
-const fs = require("fs");
-
-const static = require('node-static');
+const static = require("node-static");
 
 const PORT = process.env.PORT || 4000;
 const whoisApiKey = process.env.WHOISAPIKEY;
@@ -52,7 +50,9 @@ const getWebsiteData = async (domainName) => {
   }
 };
 
-var file = new(static.Server)(path.resolve(__dirname,'client','build'));
+const fileServer = new static.Server(
+  path.resolve(__dirname, "client", "build")
+);
 
 const MAIN = async (req, res) => {
   try {
@@ -75,21 +75,7 @@ const MAIN = async (req, res) => {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(data));
     } else if (process.env.NODE_ENV === "production") {
-      req.addListener('end', function () {
-        file.serve(req, res);
-      }).resume();
-      fs.readFile(
-        path.resolve(__dirname, "client", "build", "index.html"),
-        (err, data) => {
-          if (err) {
-            res.writeHead(404);
-            res.end(JSON.stringify(err));
-            return;
-          }
-          res.writeHead(200);
-          res.end(data);
-        }
-      );
+      fileServer.serve(req, res);
     }
   } catch (err) {
     console.log(`Some error occur: ${err}`);
