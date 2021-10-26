@@ -93,12 +93,6 @@ const MAIN = async (req, res) => {
   }
 };
 
-if (process.env.NODE_ENV === "production") {
-  https
-    .createServer(MAIN)
-    .listen(PORT, () => console.log(`Node server runnning at ${PORT}`));
-} else {
-  http
-    .createServer(MAIN)
-    .listen(PORT, () => console.log(`Node server runnning at ${PORT}`));
-}
+http
+  .createServer(MAIN)
+  .listen(PORT, () => console.log(`Node server runnning at ${PORT}`));
