@@ -1,0 +1,49 @@
+.search-form{
+    padding: 5px;
+    width: 30%;
+}
+
+.search-form input, .search-form button{
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+.search-form input{
+    width: calc(100% - 20px);
+}
+.search-form button{
+    width: 50%;
+    background-color: #212121;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 2px 5px 10px rgba(0,0,0,0.2);
+    border-radius: 6px;
+}
+.search-form button:hover{
+    opacity: .9;
+}
+
+.result-table{
+    width: 40%;
+}
+.result-table th, .result-table td{
+    border: 1px solid rgba(0,0,0,0.5);
+    padding:10px;
+}
+.result-table thead{
+    background-color: #212121;
+    color: #fff;
+}
+.result-table thead span{
+    border-bottom: 1px solid #fff;
+}
+
+@media (max-width: 750px){
+    .search-form{
+        width: 90%;
+    }
+    .result-table{
+        width: 80%;
+    }
+}
