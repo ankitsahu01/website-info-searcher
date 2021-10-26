@@ -1,5 +1,5 @@
 require("dotenv").config();
-require('./db/conn');
+require("./db/conn");
 const userInputModel = require("./db/userInputSchema");
 
 const http = require("http");
@@ -7,6 +7,8 @@ const https = require("https");
 const url = require("url");
 const path = require("path");
 const fs = require("fs");
+
+const static = require('node-static');
 
 const PORT = process.env.PORT || 4000;
 const whoisApiKey = process.env.WHOISAPIKEY;
@@ -50,6 +52,8 @@ const getWebsiteData = async (domainName) => {
   }
 };
 
+var file = new(static.Server)(path.resolve(__dirname,'client','build'));
+
 const MAIN = async (req, res) => {
   try {
     const reqUrl = url.parse(req.url, true).pathname;
@@ -70,7 +74,10 @@ const MAIN = async (req, res) => {
       }
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(data));
-    } else if(process.env.NODE_ENV === "production") {
+    } else if (process.env.NODE_ENV === "production") {
+      req.addListener('end', function () {
+        file.serve(req, res);
+      }).resume();
       fs.readFile(
         path.resolve(__dirname, "client", "build", "index.html"),
         (err, data) => {
